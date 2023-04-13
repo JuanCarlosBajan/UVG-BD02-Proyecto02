@@ -1,5 +1,5 @@
 
-from table import Table
+from Table import Table
 
 
 class HBase:
