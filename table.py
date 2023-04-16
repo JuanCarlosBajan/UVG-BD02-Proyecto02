@@ -68,7 +68,6 @@ class Table:
 				if not self.enabled:
 						return deleted_rows
 				if column_family != None and column_family not in self.family_columns.keys():
-						print("h1: ", column_family, self.family_columns.keys())
 						return deleted_rows
 				if column != None and column not in self.family_columns[column_family]:
 						return deleted_rows
