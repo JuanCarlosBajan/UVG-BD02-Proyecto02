@@ -2,8 +2,6 @@
 
 
 class Table:
-		
-
 
 		def __init__(self, name, groups):
 				self.name = name

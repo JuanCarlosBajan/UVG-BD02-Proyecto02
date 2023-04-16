@@ -84,6 +84,9 @@ while True:
 
 						else:
 								print(">> Ha ocurrido un error")
+				
+				elif content[0] == "MODIFY":
+						print(content)
 
 		elif command[0] == "drop":
 				table_name = command[1][1:-1]

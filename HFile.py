@@ -6,17 +6,10 @@ class HFile:
 		''' An HFile has an array of columns and an array of rows '''
 
 		
-		def __init__(self, name, columns, rows):
-			self.name = name
-			self.columns = columns
+		def __init__(self, rows):
 			self.rows = rows
 
 		
-		# Getters
-		def get_name(self):
-			return self.name
-		def get_columns(self):
-			return self.columns	
 		def get_rows(self):
 			return self.rows	
 		
@@ -36,7 +29,7 @@ class Row:
 
 	def __init__(self, key, column, timestamp, value, enabled):
 		self.key = key
-		self.column = column
+		self.column = column	# ColumnFamily:Column
 		self.timestamp = timestamp
 		self.value = value
 		self.enabled = enabled
