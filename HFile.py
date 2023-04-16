@@ -41,23 +41,23 @@ class HFile:
 			for row in self.rows:
 				# If all parameters are None, delete all rows with the given key
 				if column_family == None and column == None and timestamp == None:
-					if row.key == key:
+					if row.key == key and row.enabled == True:
 						row.disable()
 						rows_deleted += 1
 				# If only column family is given, delete all rows with the given key and column family
 				if column_family != None and column == None and timestamp == None:
-					if row.key == key and column_family in row.column:
+					if row.key == key and column_family in row.column and row.enabled == True:
 						row.disable()
 						rows_deleted += 1
 				# If only column is given, delete all rows with the given key and column
 				if column_family != None and column != None and timestamp == None:
 					col_key = column_family + ":" + column
-					if row.key == key and row.column == col_key:
+					if row.key == key and row.column == col_key and row.enabled == True:
 						row.disable()
 						rows_deleted += 1
 				if column_family != None and column != None and timestamp != None:
 					col_key = column_family + ":" + column
-					if row.key == key and row.column == col_key and row.timestamp == timestamp:
+					if row.key == key and row.column == col_key and row.timestamp == timestamp and row.enabled == True:
 						row.disable()
 						rows_deleted += 1
 			return rows_deleted

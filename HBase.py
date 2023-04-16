@@ -1,5 +1,6 @@
 
 from Table import Table
+from HFile import HFile, Row
 
 
 class HBase:
@@ -8,7 +9,22 @@ class HBase:
 				self.tables = {}
 	
 		def Create_Test_Table(self):
-				self.Create("test", ["cf1", "cf2"])
+				self.tables['test'] = Table('users', ['general', 'address'])
+				self.tables['test'].add_column('general', 'name')
+				self.tables['test'].add_column('general', 'age')
+				self.tables['test'].add_column('address', 'street')
+				self.tables['test'].add_column('address', 'city')
+				hfile = HFile([
+				Row('1', 'general:name', '1', 'John'),
+				Row('1', 'general:age', '1', 20),
+				])
+				# For address info
+				hfile2 = HFile([
+						Row('1', 'address:street', '1', '123 Main St'),
+						Row('1', 'address:city', '1', 'New York'),
+				])
+				self.tables['test'].h_files.append(hfile)
+				self.tables['test'].h_files.append(hfile2)
 
 		def Create(self, name, family_columns):
 				if name not in self.tables.keys():
@@ -88,9 +104,10 @@ class HBase:
 				return None
 		
 		def Delete(self, table_name, row_key = None, column_family = None, column_name = None ,timestamp = None):
+				print("Deleting row", row_key, "column family", column_family, "column name", column_name, "timestamp", timestamp, "from table", table_name,)
 				if table_name in self.tables.keys():
 						return self.tables[table_name].delete(row_key, column_family, column_name, timestamp)
-				return False
+				return 0
 		
 		def Truncate(self, table_name):
 				if table_name in self.tables.keys():
