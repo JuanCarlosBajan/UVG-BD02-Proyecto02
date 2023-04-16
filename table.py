@@ -67,7 +67,6 @@ class Table:
 				row_t = Row(row_key, column_name, time.time(), value)
 				h_file_t = HFile(row_t, column_family)
 				self.h_file_t.create_row(h_file_t)
-
 			else:
 				for hf in self.h_files:
 					if column_family == hf.column_family:
@@ -75,4 +74,18 @@ class Table:
 						return True
 					else:
 						return False
+				
+
+		def get(self, row_key, column_family, column, versions = 1):
+				if not self.enabled:
+						return None
+				if column_family not in self.family_columns.keys():
+						return None
+				if column not in self.family_columns[column_family]:
+						return None
+				for h_file in self.h_files:
+						rows = h_file.get(row_key, column_family, column, versions)
+						if len(rows) != 0:
+								return rows
+				return None
 		

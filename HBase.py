@@ -68,3 +68,15 @@ class HBase:
 		def Delete_Table_All(self):
 				self.tables = {}
 				return True
+		
+		def Get(self, table_name, row_key, columns, versions = 1):
+				if table_name in self.tables.keys():
+						rows = []
+						for column in columns:
+							cf, col = column.split(":")
+							rows_found = self.tables[table_name].get(row_key, cf, col, versions)
+							if rows_found != None:
+								# append rows_found list contents to rows
+								rows.extend(rows_found)
+						return rows
+				return None
