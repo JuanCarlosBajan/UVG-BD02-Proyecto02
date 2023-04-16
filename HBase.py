@@ -26,9 +26,9 @@ class HBase:
 						return True
 				return False
 		
-		def Disable(self, name):
+		def Enable(self, name):
 				if name in self.tables.keys():
-						self.tables[name].disable()
+						self.tables[name].enable()
 						return True
 				return False
 

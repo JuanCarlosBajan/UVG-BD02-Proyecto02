@@ -16,6 +16,9 @@ class Table:
 
 		def disable(self):
 				self.enabled = False
+		
+		def enable(self):
+				self.enabled = True
 
 		def is_enabled(self):
 				return self.enabled
@@ -102,8 +105,6 @@ class Table:
 				return deleted_rows
 			
 		def truncate(self):
-				if not self.enabled:
-						return False
 				self.h_files = []
 				return True
 
