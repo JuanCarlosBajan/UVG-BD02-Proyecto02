@@ -108,7 +108,18 @@ while True:
 			elif command[0] == "describe":
 					pass
 			
-					
+			elif command[0] == "deleteall":
+				hbase.Create_Test_Table()
+				content = "".join(command[1:])
+				content = content.split(",")
+				table_name = content[0]
+				row_key = None
+				if len(content) < 2:
+					print(">> Error con el comando")
+					continue
+				row_key = content[1]
+				total_deleted = hbase.Delete(table_name, row_key)
+				print(">> Se han eliminado " + str(total_deleted) + " registros")
 			elif command[0] == "delete":
 				hbase.Create_Test_Table()
 				multiple_keys = False
