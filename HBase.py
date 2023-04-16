@@ -11,29 +11,35 @@ class HBase:
 				self.Create("test", ["cf1", "cf2"])
 
 		def Create(self, name, family_columns):
-				if name not in self.tables.keys:
+				if name not in self.tables.keys():
 						table = Table(name, family_columns)
 						self.tables[name] = table
 						return True
 				return False
 		
 		def List(self):
-				return self.tables.keys
+				return self.tables.keys()
 		
 		def Disable(self, name):
-				if name in self.tables.keys:
+				if name in self.tables.keys():
 						self.tables[name].disable()
 						return True
 				return False
 		
+		def Disable(self, name):
+				if name in self.tables.keys():
+						self.tables[name].disable()
+						return True
+				return False
+
 		def Is_Enabled(self, name):
-				if name in self.tables.keys:
+				if name in self.tables.keys():
 						return self.tables[name].is_enabled()
 				return False
 		
 		def Alter_Table_Name(self,table, new_name):
-				found_old = table in self.tables.keys
-				found_new = new_name in self.tables.keys
+				found_old = table in self.tables.keys()
+				found_new = new_name in self.tables.keys()
 				
 				if found_old and not found_new:
 						old_table = self.tables[table]
@@ -84,4 +90,12 @@ class HBase:
 		def Delete(self, table_name, row_key = None, column_family = None, column_name = None ,timestamp = None):
 				if table_name in self.tables.keys():
 						return self.tables[table_name].delete(row_key, column_family, column_name, timestamp)
+				return False
+		
+		def Truncate(self, table_name):
+				if table_name in self.tables.keys():
+						self.Disable(table_name)
+						self.tables[table_name].truncate()
+						self.Enable(table_name)
+						return True
 				return False

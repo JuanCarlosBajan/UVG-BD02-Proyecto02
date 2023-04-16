@@ -101,6 +101,11 @@ class Table:
 						deleted_rows += h_file.delete(row_key, column_family, column, timestamp)
 				return deleted_rows
 			
+		def truncate(self):
+				if not self.enabled:
+						return False
+				self.h_files = []
+				return True
 
 		def put():
 			pass
