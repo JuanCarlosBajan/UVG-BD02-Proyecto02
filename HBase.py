@@ -80,3 +80,8 @@ class HBase:
 								rows.extend(rows_found)
 						return rows
 				return None
+		
+		def Put(self, table_name, row_key, column_family, column_name, value):
+				if table_name in self.tables.keys():
+						return self.tables[table_name].put(table_name, row_key, column_family, column_name, value)
+				return False

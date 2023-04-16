@@ -15,12 +15,12 @@ def test_get_rows():
 		hfile = HFile([
 			Row(1, 'general:name', 1, 'John'),
 			Row(1, 'general:age', 1, 20),
-		])
+		], 'general')
 		# For address info
 		hfile2 = HFile([
 			Row(1, 'address:street', 1, '123 Main St'),
 			Row(1, 'address:city', 1, 'New York'),
-		])
+		], 'address')
 		hbase.tables['test'].h_files.append(hfile)
 		hbase.tables['test'].h_files.append(hfile2)
 		# Act
@@ -48,12 +48,12 @@ def test_get_rows_multiple():
 		hfile = HFile([
 			Row(1, 'general:name', 1, 'John'),
 			Row(1, 'general:age', 1, 20),
-		])
+		], 'general')
 		# For address info
 		hfile2 = HFile([
 			Row(1, 'address:street', 1, '123 Main St'),
 			Row(1, 'address:city', 1, 'New York'),
-		])
+		], 'address')
 		hbase.tables['test'].h_files.append(hfile)
 		hbase.tables['test'].h_files.append(hfile2)
 		# Act
@@ -85,3 +85,7 @@ def test_get_rows_multiple():
 		assert result[3].timestamp == 1
 		assert result[3].value == 'New York'
 		assert result
+
+if __name__ == '__main__':
+	test_get_rows()
+	test_get_rows_multiple()
