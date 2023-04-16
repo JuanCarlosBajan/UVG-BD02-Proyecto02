@@ -1,5 +1,8 @@
 
+from HFile import HFile
+from HFile import Row
 
+import time
 
 class Table:
 
@@ -49,6 +52,29 @@ class Table:
 				if not self.enabled:
 						return False
 				self.name = name
+
+		def put(self, table_name, row_key, column_family, column_name, value):
+			if not self.enabled:
+				return False
+			if table_name != self.name:
+				return False
+			if column_family not in self.family_columns.keys():
+				return False
+			if column_name not in self.family_columns[column_family]:
+				return False
+			
+			if not self.h_files:
+				row_t = Row(row_key, column_name, time.time(), value)
+				h_file_t = HFile(row_t, column_family)
+				self.h_file_t.create_row(h_file_t)
+			else:
+				for hf in self.h_files:
+					if column_family == hf.column_family:
+						hf.add_row(row_key, column_name, time.time(), value)
+						return True
+					else:
+						return False
+				
 
 		def get(self, row_key, column_family, column, versions = 1):
 				if not self.enabled:
