@@ -107,8 +107,3 @@ class Table:
 		def truncate(self):
 				self.h_files = []
 				return True
-
-		def put():
-			pass
-
-		

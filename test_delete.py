@@ -16,12 +16,12 @@ def test_delete_row():
 		hfile = HFile([
 			Row(1, 'general:name', 1, 'John'),
 			Row(1, 'general:age', 1, 20),
-		])
+		], 'general')
 		# For address info
 		hfile2 = HFile([
 			Row(1, 'address:street', 1, '123 Main St'),
 			Row(1, 'address:city', 1, 'New York'),
-		])
+		], 'address')
 		hbase.tables['test'].h_files.append(hfile)
 		hbase.tables['test'].h_files.append(hfile2)
 
@@ -45,12 +45,12 @@ def test_delete_column():
 		hfile = HFile([
 			Row(1, 'general:name', 1, 'John'),
 			Row(1, 'general:age', 1, 20),
-		])
+		], 'general')
 		# For address info
 		hfile2 = HFile([
 			Row(1, 'address:street', 1, '123 Main St'),
 			Row(1, 'address:city', 1, 'New York'),
-		])
+		], 'address')
 		hbase.tables['test'].h_files.append(hfile)
 		hbase.tables['test'].h_files.append(hfile2)
 
@@ -77,12 +77,12 @@ def test_delete_family():
 		hfile = HFile([
 			Row(1, 'general:name', 1, 'John'),
 			Row(1, 'general:age', 1, 20),
-		])
+		], 'general')
 		# For address info
 		hfile2 = HFile([
 			Row(1, 'address:street', 1, '123 Main St'),
 			Row(1, 'address:city', 1, 'New York'),
-		])
+		], 'address')
 		hbase.tables['test'].h_files.append(hfile)
 		hbase.tables['test'].h_files.append(hfile2)
 
