@@ -9,7 +9,7 @@ class Table:
 				self.h_files = []
 				self.enabled = True
 				for fam in groups:
-						self.family_columns[fam] = []
+						self.family_columns[fam] = ['nombre', 'apellido']
 
 		def disable(self):
 				self.enabled = False
@@ -49,5 +49,8 @@ class Table:
 				if not self.enabled:
 						return False
 				self.name = name
+
+		def put():
+			pass
 
 		

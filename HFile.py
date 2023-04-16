@@ -4,7 +4,7 @@ import time
 class HFile:
 		''' Class for handling files '''
 		''' An HFile has an array of columns and an array of rows '''
-
+		rows = []
 		
 		def __init__(self, rows):
 			self.rows = rows
@@ -27,7 +27,7 @@ class Row:
 	''' Class for handling rows '''
 	''' A row has a key, column name, timestamp, value and a boolean indicating if it is enabled '''
 
-	def __init__(self, key, column, timestamp, value, enabled):
+	def __init__(self, key, column, timestamp, value, enabled = True):
 		self.key = key
 		self.column = column	# ColumnFamily:Column
 		self.timestamp = timestamp
