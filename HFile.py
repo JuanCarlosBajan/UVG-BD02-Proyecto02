@@ -21,6 +21,17 @@ class HFile:
 			row = Row(key, column, time.time(), value, True)
 			self.rows.append(row)
 			return row
+		
+
+		def get(self, key, column_family, column, versions = 1):
+			# Order rows by timestamp
+			self.rows.sort(key=lambda x: x.timestamp, reverse=True)
+			rows_found = []
+			for row in self.rows:
+				col_key = column_family + ":" + column
+				if row.key == key and row.column == col_key and row.enabled == True and len(rows_found) <= versions:
+					rows_found.append(row)
+			return rows_found
 
 
 class Row:

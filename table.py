@@ -50,6 +50,20 @@ class Table:
 						return False
 				self.name = name
 
+		def get(self, row_key, column_family, column, versions = 1):
+				if not self.enabled:
+						return None
+				if column_family not in self.family_columns.keys():
+						return None
+				if column not in self.family_columns[column_family]:
+						return None
+				for h_file in self.h_files:
+						rows = h_file.get(row_key, column_family, column, versions)
+						if len(rows) != 0:
+								return rows
+				return None
+			
+
 		def put():
 			pass
 
