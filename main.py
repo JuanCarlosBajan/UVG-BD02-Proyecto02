@@ -111,8 +111,15 @@ while True:
 					
 			elif command[0] == "delete":
 				hbase.Create_Test_Table()
+				multiple_keys = False
+				keys_found = ''
+				for c in command[1]:		
+					if multiple_keys and c != '}':
+						keys_found += c
+					if c == "{":
+						multiple_keys = True
+
 				content = "".join(command[1:])
-				print(content)
 				content = content.split(",")
 				table_name = content[0]
 				row_key = None
@@ -127,14 +134,25 @@ while True:
 				if len(content) >= 3:
 					column_identifier = content[2]
 					if ":" in column_identifier:
-						print("what")
 						column_family = column_identifier.split(":")[0]
 						column_name = column_identifier.split(":")[1]
 					else:
 						column_family = column_identifier
-				if len(content) == 4:
+				if len(content) == 4 and not multiple_keys:
 					timestamp = content[3]
-				total_deleted = hbase.Delete(table_name, row_key,  column_family, column_name, timestamp)
+				if not multiple_keys:
+					total_deleted = hbase.Delete(table_name, row_key,  column_family, column_name, timestamp)
+				else:
+					splitted_keys = keys_found.split(',')
+					total_deleted = 0
+					for key in splitted_keys:
+						if ":" in key:
+							column_family = key.split(":")[0]
+							column_name = key.split(":")[1]
+						else:
+							column_family = key
+							column_name = None
+						total_deleted += hbase.Delete(table_name, row_key,  column_family, column_name, timestamp)
 				print(">> Se han eliminado " + str(total_deleted) + " registros")
 
 			#AQUI DEBEN IR TODOS LOS DEMAS COMANDOS
