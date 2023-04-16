@@ -104,3 +104,8 @@ class HBase:
 						self.Enable(table_name)
 						return True
 				return False
+		
+		def Count(self, table_name):
+				if table_name in self.tables.keys():
+						return self.tables[table_name].count()
+				return False

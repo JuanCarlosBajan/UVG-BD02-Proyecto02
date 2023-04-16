@@ -107,3 +107,9 @@ class Table:
 		def truncate(self):
 				self.h_files = []
 				return True
+		
+		def count(self):
+				count = 0
+				for h_file in self.h_files:
+						count += len(h_file.rows)
+				return count

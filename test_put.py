@@ -49,7 +49,3 @@ def test_put_no_hfile():
 		assert hbase.tables['test'].h_files[0].rows[-1].value == 'New York'
 		assert hbase.tables['test'].h_files[0].rows[-1].enabled == True
 		
-
-if __name__ == '__main__':
-    test_put()
-    test_put_no_hfile()
