@@ -6,6 +6,7 @@ class Table:
 		def __init__(self, name, groups):
 				self.name = name
 				self.family_columns = {}
+				self.h_files = []
 				self.enabled = True
 				for fam in groups:
 						self.family_columns[fam] = []
