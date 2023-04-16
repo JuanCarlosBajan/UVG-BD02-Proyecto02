@@ -1,9 +1,10 @@
+
 from HBase import HBase
 from HFile import HFile, Row
 from Table import Table
 
 
-def test_truncate():
+def test_count():
     # Arrange
 		hbase = HBase()
 		hbase.tables['test'] = Table('users', ['general', 'address'])
@@ -20,12 +21,14 @@ def test_truncate():
 		hfile2 = HFile([
 				Row(1, 'address:street', 1, '123 Main St'),
 				Row(1, 'address:city', 1, 'New York'),
+                Row(2, 'address:street', 1, '5th Ave'),
 		], 'address')
 		hbase.tables['test'].h_files.append(hfile)
 		hbase.tables['test'].h_files.append(hfile2)
-		# Act
-		hbase.Truncate('test')
-		# Assert
-		assert len(hbase.tables['test'].h_files) == 0
-		assert len(hbase.tables['test'].h_files) == 0
-		assert hbase.tables['test'].is_enabled() == True
+		# Act and Assert
+		assert hbase.Count('test') == 5
+		
+
+if __name__ == '__main__':
+    test_count()
+

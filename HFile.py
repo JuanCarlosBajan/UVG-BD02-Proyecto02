@@ -6,8 +6,9 @@ class HFile:
 		''' An HFile has an array of columns and an array of rows '''
 		rows = []
 		
-		def __init__(self, rows):
+		def __init__(self, rows, column_family):
 			self.rows = rows
+			self.column_family = column_family
 
 		
 		def get_rows(self):

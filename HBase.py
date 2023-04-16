@@ -103,6 +103,11 @@ class HBase:
 						return rows
 				return None
 		
+		def Put(self, table_name, row_key, column_family, column_name, value):
+				if table_name in self.tables.keys():
+						return self.tables[table_name].put(table_name, row_key, column_family, column_name, value)
+				return False
+		
 		def Delete(self, table_name, row_key = None, column_family = None, column_name = None ,timestamp = None):
 				if table_name in self.tables.keys():
 						return self.tables[table_name].delete(row_key, column_family, column_name, timestamp)
@@ -114,4 +119,9 @@ class HBase:
 						self.tables[table_name].truncate()
 						self.Enable(table_name)
 						return True
+				return False
+		
+		def Count(self, table_name):
+				if table_name in self.tables.keys():
+						return self.tables[table_name].count()
 				return False

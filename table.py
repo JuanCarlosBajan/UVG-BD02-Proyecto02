@@ -57,9 +57,8 @@ class Table:
 				self.name = name
 
 		def put(self, table_name, row_key, column_family, column_name, value):
+			
 			if not self.enabled:
-				return False
-			if table_name != self.name:
 				return False
 			if column_family not in self.family_columns.keys():
 				return False
@@ -67,13 +66,14 @@ class Table:
 				return False
 			
 			if not self.h_files:
-				row_t = Row(row_key, column_name, time.time(), value)
-				h_file_t = HFile(row_t, column_family)
-				self.h_file_t.create_row(h_file_t)
+				row_t = Row(row_key, f'{column_family}:{column_name}', time.time(), value)
+				h_file_t = HFile([row_t], column_family)
+				self.h_files = [h_file_t]
+				return True
 			else:
 				for hf in self.h_files:
 					if column_family == hf.column_family:
-						hf.add_row(row_key, column_name, time.time(), value)
+						hf.create_row(row_key, f'{column_family}:{column_name}', value)
 						return True
 					else:
 						return False
@@ -107,8 +107,9 @@ class Table:
 		def truncate(self):
 				self.h_files = []
 				return True
-
-		def put():
-			pass
-
 		
+		def count(self):
+				count = 0
+				for h_file in self.h_files:
+						count += len(h_file.rows)
+				return count
