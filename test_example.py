@@ -7,4 +7,4 @@ def test_example():
 		# Act 
 		c = a + b
 		# Assert
-		assert c == 2
+		assert c == 3
