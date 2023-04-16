@@ -6,6 +6,34 @@ print("Bienvenido al simulador de Hbase")
 
 hbase = HBase()
 
+
+def parse_get_command(cmd):
+    parts = cmd.split(',')
+    table_name = parts[0].strip()[4:]
+    row_key = parts[1].strip()
+    column_spec = parts[2].strip()
+    if 'COLUMN' in column_spec:
+        column_spec_parts = column_spec.split('=>')[1].strip()
+        columns = column_spec_parts.split(',')
+        columns = [c.strip() for c in columns]
+        columns = [c.strip('{}').strip() for c in columns]
+        columns = [c.split(':') for c in columns]
+        columns = [f"{cf}:{col}" for cf, col in columns]
+        columns_str = ",".join(columns)
+    else:
+        columns_str = None
+    if 'VERSIONS' in column_spec:
+        versions = column_spec.split('=>')[2].strip()
+    else:
+        versions = None
+    return (table_name, row_key, columns_str, versions)
+
+
+
+
+
+
+
 while True:
 		try:
 			command = input(">>")
@@ -120,6 +148,12 @@ while True:
 				row_key = content[1]
 				total_deleted = hbase.Delete(table_name, row_key)
 				print(">> Se han eliminado " + str(total_deleted) + " registros")
+			
+			elif command[0] == "get":
+				# Parse the following format: get 'my_table', 'row1', {COLUMN => 'my_cf:my_column', VERSIONS => 1}
+				parsed_command = parse_get_command(" ".join(command))
+				print(parsed_command)
+			
 			elif command[0] == "delete":
 				hbase.Create_Test_Table()
 				multiple_keys = False
