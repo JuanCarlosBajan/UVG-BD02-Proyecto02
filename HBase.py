@@ -80,3 +80,8 @@ class HBase:
 								rows.extend(rows_found)
 						return rows
 				return None
+		
+		def Delete(self, table_name, row_key = None, column_family = None, column_name = None ,timestamp = None):
+				if table_name in self.tables.keys():
+						return self.tables[table_name].delete(row_key, column_family, column_name, timestamp)
+				return False

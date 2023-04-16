@@ -62,6 +62,19 @@ class Table:
 						if len(rows) != 0:
 								return rows
 				return None
+		
+		def delete(self, row_key, column_family = None, column = None, timestamp = None):
+				deleted_rows = 0
+				if not self.enabled:
+						return deleted_rows
+				if column_family != None and column_family not in self.family_columns.keys():
+						print("h1: ", column_family, self.family_columns.keys())
+						return deleted_rows
+				if column != None and column not in self.family_columns[column_family]:
+						return deleted_rows
+				for h_file in self.h_files:
+						deleted_rows += h_file.delete(row_key, column_family, column, timestamp)
+				return deleted_rows
 			
 
 		def put():

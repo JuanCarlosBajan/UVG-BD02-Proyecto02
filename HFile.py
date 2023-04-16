@@ -32,6 +32,35 @@ class HFile:
 				if row.key == key and row.column == col_key and row.enabled == True and len(rows_found) <= versions:
 					rows_found.append(row)
 			return rows_found
+		
+
+		def delete(self, key, column_family = None, column = None, timestamp = None):
+			''' Deletes a row with the given key, column and timestamp '''
+			''' Returns true if the row was deleted '''
+			rows_deleted = 0
+			for row in self.rows:
+				# If all parameters are None, delete all rows with the given key
+				if column_family == None and column == None and timestamp == None:
+					if row.key == key:
+						row.disable()
+						rows_deleted += 1
+				# If only column family is given, delete all rows with the given key and column family
+				if column_family != None and column == None and timestamp == None:
+					if row.key == key and column_family in row.column:
+						row.disable()
+						rows_deleted += 1
+				# If only column is given, delete all rows with the given key and column
+				if column_family != None and column != None and timestamp == None:
+					col_key = column_family + ":" + column
+					if row.key == key and row.column == col_key:
+						row.disable()
+						rows_deleted += 1
+				if column_family != None and column != None and timestamp != None:
+					col_key = column_family + ":" + column
+					if row.key == key and row.column == col_key and row.timestamp == timestamp:
+						row.disable()
+						rows_deleted += 1
+			return rows_deleted
 
 
 class Row:
