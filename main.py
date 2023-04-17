@@ -6,6 +6,7 @@ print("Bienvenido al simulador de Hbase")
 
 hbase = HBase()
 
+hbase.Create_Test_Table()
 
 def parse_get_command(cmd):
     parts = cmd.split(',')
@@ -67,6 +68,13 @@ while True:
 							print(">> La tabla '" + table_name + "' no existe")
 					else:
 							print(">> La tabla '" + table_name + "' se ha deshabilitado")
+
+			elif command[0] == "enable":
+					table_name = command[1][1:-1]
+					if not hbase.Enable(table_name):
+							print(">> La tabla '" + table_name + "' no existe")
+					else:
+							print(">> La tabla '" + table_name + "' se ha habilitado")
 
 			elif command[0] == "is_enabled":
 					table_name = command[1][1:-1]
@@ -136,7 +144,10 @@ while True:
 							print(">> Ha ocurrido un error ")
 
 			elif command[0] == "describe":
-					pass
+					content = command[1][1:-1]
+					res = hbase.Describe(content)
+					if not res:
+						print(">> Error al realizar describe de esta tabla")
 			
 			elif command[0] == "deleteall":
 				# example deleteall 'test',1

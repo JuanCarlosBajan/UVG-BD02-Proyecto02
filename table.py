@@ -146,3 +146,12 @@ class Table:
 									if row.key >= start_row and row.key < end_row:
 											rows.append(row)
 				return rows
+		
+		def describe(self):
+			enabled = "ENABLED" if self.enabled else "DISABLED"
+			print("Table " + self.name + " is " + enabled)
+			print(self.name)
+			print("COLUMN FAMILIES DESCRIPTION")
+			for column_family in self.family_columns.keys():
+				print("{NAME => '" + column_family + "' VERSIONS => '1'}")
+			print(str(len(self.family_columns.keys())) + " row(s)")
