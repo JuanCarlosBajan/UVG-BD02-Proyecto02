@@ -145,17 +145,41 @@ while True:
 				print(">> Se han eliminado " + str(total_deleted) + " registros")
 			
 			elif command[0] == "get":
+				hbase.Create_Test_Table()
 				command[1].replace("'","")
 				content = "".join(command[1:])
 				content = content.split(",")
-				table_name = content[0]
+				table_name = content[0].replace("'","")
 				if len(content) < 3:
 					print(">> Error con el comando")
 					continue
 				
-				row_key = content[1]
-				columns = content[2:]
+				row_key = content[1].replace("'","")
+				extra = ",".join(content[2:])
+				extra = extra.replace("'","")
+				extra = extra.replace(" ","")
+				extra = extra.replace("{","")
+				extra = extra.replace("}","")
+				parameters = extra.split(",")
+				column_family = None
+				column = None
+				version = 1
+				for p in parameters:
+					key, value = p.split("=>")
+					if key == "COLUMN":
+						column_family, column = value.split(":")
+					if key == "VERSION":
+						version = int(value)
 				
+				rows = hbase.Get(table_name, row_key,[column_family + ":" + column], version)
+				if rows is None:
+					print(">> No se encontraron registros")
+				else:
+					for row in rows:
+						print(">> Key:" + row.key)
+						print(">> Value:" + str(row.value))
+						print(">> Timestamp:" + row.timestamp)
+
 				
 
 			elif command[0] == "truncate":
