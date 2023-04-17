@@ -2,6 +2,7 @@
 from Table import Table
 from HFile import HFile, Row
 import numpy as np
+import csv
 
 
 class HBase:
@@ -11,9 +12,17 @@ class HBase:
 
 
 		def Load_DataSet(self):
-			data = np.genfromtxt('books.csv', delimiter=',', encoding='utf-8')
+			data = []
+
+			with open('books.csv', 'r', encoding='utf-8') as csvfile:
+				reader = csv.reader(csvfile)
+				for row in reader:
+					if len(row) == 12:
+						data.append(row)
+
 			data = np.array(data)
-			data = data[~np.isnan(data).any(axis=1)]
+			data = data[~np.all(data == '', axis=1)]
+			data = data[1:]
 
 			
 
