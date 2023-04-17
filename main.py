@@ -61,7 +61,7 @@ while True:
 
 			elif command[0] == "list":
 					for name in hbase.List():
-							print(">> " + name)
+							print(">> " + str(name))
 
 			elif command[0] == "disable":
 					table_name = command[1][1:-1]
