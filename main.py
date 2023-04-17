@@ -132,6 +132,7 @@ while True:
 					pass
 			
 			elif command[0] == "deleteall":
+				# example deleteall 'test',1
 				command[1].replace("'","")
 				content = "".join(command[1:])
 				content = content.split(",")
