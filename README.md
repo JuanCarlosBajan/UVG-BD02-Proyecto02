@@ -1,13 +1,14 @@
 # Proyecto 02 - Bases de Datos 02
 
+https://youtu.be/SjVpq25qFvE
+
 ## Comandos - Definición de datos
 - Create: `create 'users','general','address'`
 - Is_Enabled: `is_enabled 'users'`
 - Alter: `alter 'users', {NAME => 'usuarios'}`, `alter 'usuarios', {ADD => 'familia_prueba'}`
-
-- Drop: ``
-- Drop All: ``
-- Describe: ``
+- Drop: `disable 'usuarios'`, `drop usuarios`
+- Drop All: `drop_all`
+- Describe: `describe 'usuarios'`
 - List: `list`
 
 ## Comandos - Manipulación de datos
