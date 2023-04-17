@@ -56,7 +56,7 @@ class Table:
 						return False
 				self.name = name
 
-		def put(self, table_name, row_key, column_family, column_name, value):
+		def put(self, table_name, row_key, column_family, column_name, value, timestamp = None):
 			
 			if not self.enabled:
 				return False
@@ -65,15 +65,18 @@ class Table:
 			if column_name not in self.family_columns[column_family]:
 				return False
 			
+			if not timestamp:
+				timestamp = time.time()
+			
 			if not self.h_files:
-				row_t = Row(row_key, f'{column_family}:{column_name}', time.time(), value)
+				row_t = Row(row_key, f'{column_family}:{column_name}', timestamp, value)
 				h_file_t = HFile([row_t], column_family)
 				self.h_files = [h_file_t]
 				return True
 			else:
 				for hf in self.h_files:
 					if column_family == hf.column_family:
-						hf.create_row(row_key, f'{column_family}:{column_name}', value)
+						hf.create_row(row_key, f'{column_family}:{column_name}', value, timestamp)
 						return True
 					else:
 						return False
@@ -114,11 +117,23 @@ class Table:
 						count += len(h_file.rows)
 				return count
 		
-		def scan(self):
+		def scan(self, start_row = None, end_row = None, limit = None):
 				if not self.enabled:
 						return False
+				
 				rows = []
-				for h_file in self.h_files:
-						for row in h_file.rows:
-								rows.append(row)
+				if not start_row and not end_row:
+					count = 0
+					for h_file in self.h_files:
+							for row in h_file.rows:
+									if limit and count == limit:
+										break
+									rows.append(row)
+									count += 1
+				
+				if start_row and end_row:
+					for h_file in self.h_files:
+							for row in h_file.rows:
+									if row.key >= start_row and row.key < end_row:
+											rows.append(row)
 				return rows
