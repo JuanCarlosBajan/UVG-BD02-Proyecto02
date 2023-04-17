@@ -3,7 +3,8 @@
 ## Comandos - Definición de datos
 - Create: `create 'users','general','address'`
 - Is_Enabled: `is_enabled 'users'`
-- Alter: `alter 'users', {NAME => 'usuarios'}`
+- Alter: `alter 'users', {NAME => 'usuarios'}`, `alter 'usuarios', {ADD => 'familia_prueba'}`
+
 - Drop: ``
 - Drop All: ``
 - Describe: ``

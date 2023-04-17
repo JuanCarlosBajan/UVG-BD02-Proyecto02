@@ -119,14 +119,12 @@ while True:
 									print(">> Ha ocurrido un error")
 
 					elif content[0] == "DELETE":
-							if hbase.Alter_Table_Add(table_name, content[1][1:-1]):
+							if hbase.Alter_Table_Delete(table_name, content[1][1:-1]):
 									print(">> Se ha eliminado la familia '" + content[1][1:-1] + "' a la tabla '" + table_name + "'")
 
 							else:
 									print(">> Ha ocurrido un error")
 					
-					elif content[0] == "MODIFY":
-							print(content)
 
 			elif command[0] == "drop":
 					table_name = command[1][1:-1]

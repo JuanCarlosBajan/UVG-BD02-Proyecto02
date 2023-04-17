@@ -176,22 +176,22 @@ class HBase:
 				return False
 		
 		def Alter_Table_Add(self, name, column_family):
-				if name in self.tables.keys:
+				if name in self.tables.keys():
 						return self.tables[name].add_family(column_family)
 				return False
 		
 		def Alter_Table_Delete(self, name, column_family):
-				if name in self.tables.keys:
+				if name in self.tables.keys():
 						return self.tables[name].delete_family(column_family)
 				return False
 		
 		def Alter_Table_Add_Column(self, name, column_family, column):
-				if name in self.tables.keys:
+				if name in self.tables.keys():
 						return self.tables[name].add_column(column_family, column)
 				return False
 		
 		def Delete_Table(self, name):
-				if name in self.tables.keys and not self.tables[name].is_enabled():
+				if name in self.tables.keys() and not self.tables[name].is_enabled():
 						del self.tables[name]
 						return True
 				return False

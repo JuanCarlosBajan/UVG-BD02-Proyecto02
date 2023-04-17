@@ -26,7 +26,7 @@ class Table:
 		def add_family(self, name):
 				if not self.enabled:
 						return False
-				if name in self.family_columns.keys:
+				if name in self.family_columns.keys():
 						return False
 				self.family_columns[name] = []
 				return True
@@ -35,7 +35,7 @@ class Table:
 				if not self.enabled:
 						return False
 				
-				if name not in self.family_columns.keys:
+				if name not in self.family_columns.keys():
 						return False
 				
 				del self.family_columns[name]
