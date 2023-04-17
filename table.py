@@ -123,13 +123,22 @@ class Table:
 				
 				rows = []
 				if not start_row and not end_row:
-					count = 0
+					
 					for h_file in self.h_files:
+							count = 0
+							old_key = None
 							for row in h_file.rows:
+									
+									if old_key and old_key != row.key:
+										count += 1
+
 									if limit and count == limit:
+										# rows.append(row)
 										break
+									
+									
+									old_key = row.key
 									rows.append(row)
-									count += 1
 				
 				if start_row and end_row:
 					for h_file in self.h_files:
@@ -137,3 +146,12 @@ class Table:
 									if row.key >= start_row and row.key < end_row:
 											rows.append(row)
 				return rows
+		
+		def describe(self):
+			enabled = "ENABLED" if self.enabled else "DISABLED"
+			print("Table " + self.name + " is " + enabled)
+			print(self.name)
+			print("COLUMN FAMILIES DESCRIPTION")
+			for column_family in self.family_columns.keys():
+				print("{NAME => '" + column_family + "' VERSIONS => '1'}")
+			print(str(len(self.family_columns.keys())) + " row(s)")

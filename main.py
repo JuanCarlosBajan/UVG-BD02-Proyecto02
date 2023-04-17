@@ -6,6 +6,7 @@ print("Bienvenido al simulador de Hbase")
 
 hbase = HBase()
 
+hbase.Create_Test_Table()
 
 def parse_get_command(cmd):
     parts = cmd.split(',')
@@ -67,6 +68,13 @@ while True:
 							print(">> La tabla '" + table_name + "' no existe")
 					else:
 							print(">> La tabla '" + table_name + "' se ha deshabilitado")
+
+			elif command[0] == "enable":
+					table_name = command[1][1:-1]
+					if not hbase.Enable(table_name):
+							print(">> La tabla '" + table_name + "' no existe")
+					else:
+							print(">> La tabla '" + table_name + "' se ha habilitado")
 
 			elif command[0] == "is_enabled":
 					table_name = command[1][1:-1]
@@ -136,7 +144,10 @@ while True:
 							print(">> Ha ocurrido un error ")
 
 			elif command[0] == "describe":
-					pass
+					content = command[1][1:-1]
+					res = hbase.Describe(content)
+					if not res:
+						print(">> Error al realizar describe de esta tabla")
 			
 			elif command[0] == "deleteall":
 				# example deleteall 'test',1
@@ -288,7 +299,7 @@ while True:
 						print(">> La tabla '" + table_name + "' tiene " + str(hbase.Count(table_name)) + " registros")
 
 			elif command[0] == "scan":
-				hbase.Create_Test_Table()
+				hbase.Create_Test_Table2()
 				command[1].replace("'","")
 				arguments = command[1].split(",")
 				if len(arguments) < 1:
@@ -296,18 +307,75 @@ while True:
 						continue
 				table_name = arguments[0][1:-1]
 
+				lenn = len(arguments)
+				start, end, limit = None, None, None
+				if len(arguments) == 3:
+					if arguments[1][0] != '{' and arguments[2][-1] != '}':
+						print(">> Error con el comando")
+						continue
+					else:
+						arg1 = arguments[1][1:]
+						arg2 = arguments[2][:-1]
+
+						if '=>' not in arg1 or '=>' not in arg2:
+							print(">> Error con el comando")
+							continue
+						else:
+							start = arg1.split('=>')[1]
+							end = arg2.split('=>')[1]
+							start = int(start)
+							end = int(end)
+							keyword_start = arg1.split('=>')[0]
+							keyword_end = arg2.split('=>')[0]
+							if keyword_start != 'STARTROW' or keyword_end != 'ENDROW':
+								print(">> Error con el comando")
+								continue
+
+				if len(arguments) == 2:
+					if arguments[1][0] != '{' and arguments[1][-1] != '}':
+						print(">> Error con el comando")
+						continue
+					else:
+						arg1 = arguments[1][1:-1]
+						if '=>' not in arg1:
+							print(">> Error con el comando")
+							continue
+						else:
+							limit = arg1.split('=>')[1]
+							limit = int(limit)
+							keyword_lim = arg1.split('=>')[0]
+							if keyword_lim != 'LIMIT':
+								print(">> Error con el comando")
+								continue	
+
 				if table_name not in hbase.tables.keys():
 					print(">> La tabla '" + table_name + "' no existe")
 					continue
 				else:
-					if not hbase.Scan(table_name):
-						print(">> Ha ocurrido un error")
-					else:
-						if not hbase.Scan(table_name):
-							print(">> La tabla '" + table_name + "' no tiene registros")
+					if start and end:
+						if start > end:
+							print(">> Error con el comando, rangos no validos")
+							continue
+						elif not hbase.Scan(table_name=table_name, row_start=start, row_stop=end):
+							print(">> La tabla '" + table_name + "' no tiene registros en ese rango")
 						else:
-							for row in hbase.Scan(table_name):
-								print(" Key:" + row.key + " value:" + str(row.value) + " timestamp:" + row.timestamp)
+							for row in hbase.Scan(table_name=table_name, row_start=start, row_stop=end):
+								print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
+					else:
+						if limit:
+							if not hbase.Scan(table_name=table_name, limit=limit):
+								print(">> La tabla '" + table_name + "' no tiene registros con las especificaciones dadas")
+							else:
+								for row in hbase.Scan(table_name=table_name, limit=limit):
+									print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
+						else:
+							if not hbase.Scan(table_name):
+								print(">> La tabla '" + table_name + "' no tiene registros con las especificaciones dadas")
+							else:
+								for row in hbase.Scan(table_name):
+									print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
+
+							
 				
 
 					
