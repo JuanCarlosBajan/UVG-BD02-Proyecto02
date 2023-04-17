@@ -280,6 +280,29 @@ while True:
 					else:
 						print(">> La tabla '" + table_name + "' tiene " + str(hbase.Count(table_name)) + " registros")
 
+			elif command[0] == "scan":
+				hbase.Create_Test_Table()
+				command[1].replace("'","")
+				arguments = command[1].split(",")
+				if len(arguments) < 1:
+						print(">> Error con el comando")
+						continue
+				table_name = arguments[0][1:-1]
+
+				if table_name not in hbase.tables.keys():
+					print(">> La tabla '" + table_name + "' no existe")
+					continue
+				else:
+					if not hbase.Scan(table_name):
+						print(">> Ha ocurrido un error")
+					else:
+						if not hbase.Scan(table_name):
+							print(">> La tabla '" + table_name + "' no tiene registros")
+						else:
+							for row in hbase.Scan(table_name):
+								print(" Key:" + row.key + " value:" + str(row.value) + " timestamp:" + row.timestamp)
+				
+
 					
 			else:
 					print("comando '" + command[0] + "' No aceptado")
