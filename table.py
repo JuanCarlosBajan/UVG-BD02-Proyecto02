@@ -123,13 +123,22 @@ class Table:
 				
 				rows = []
 				if not start_row and not end_row:
-					count = 0
+					
 					for h_file in self.h_files:
+							count = 0
+							old_key = None
 							for row in h_file.rows:
+									
+									if old_key and old_key != row.key:
+										count += 1
+
 									if limit and count == limit:
+										# rows.append(row)
 										break
+									
+									
+									old_key = row.key
 									rows.append(row)
-									count += 1
 				
 				if start_row and end_row:
 					for h_file in self.h_files:
