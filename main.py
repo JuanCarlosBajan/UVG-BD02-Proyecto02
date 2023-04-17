@@ -261,7 +261,25 @@ while True:
 						print(">> Se ha insertado el registro")
 					else:
 						print(">> Ha ocurrido un error")
-				
+
+			elif command[0] == "count":
+				hbase.Create_Test_Table()
+				command[1].replace("'","")
+				arguments = command[1].split(",")
+				if len(arguments) < 1:
+						print(">> Error con el comando")
+						continue
+				table_name = arguments[0][1:-1]
+
+				if table_name not in hbase.tables.keys():
+					print(">> La tabla '" + table_name + "' no existe")
+					continue
+				else:
+					if not hbase.Count(table_name):
+						print(">> La tabla '" + table_name + "' no tiene registros")
+					else:
+						print(">> La tabla '" + table_name + "' tiene " + str(hbase.Count(table_name)) + " registros")
+
 					
 			else:
 					print("comando '" + command[0] + "' No aceptado")
