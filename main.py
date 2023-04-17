@@ -297,7 +297,7 @@ while True:
 				table_name = arguments[0][1:-1]
 
 				lenn = len(arguments)
-				start, end = None, None
+				start, end, limit = None, None, None
 				if len(arguments) == 3:
 					if arguments[1][0] != '{' and arguments[2][-1] != '}':
 						print(">> Error con el comando")
@@ -317,9 +317,25 @@ while True:
 							keyword_start = arg1.split('=>')[0]
 							keyword_end = arg2.split('=>')[0]
 							if keyword_start != 'STARTROW' or keyword_end != 'ENDROW':
-								print(">> Error con el comando, rangos no validos")
+								print(">> Error con el comando")
 								continue
-						
+
+				if len(arguments) == 2:
+					if arguments[1][0] != '{' and arguments[1][-1] != '}':
+						print(">> Error con el comando")
+						continue
+					else:
+						arg1 = arguments[1][1:-1]
+						if '=>' not in arg1:
+							print(">> Error con el comando")
+							continue
+						else:
+							limit = arg1.split('=>')[1]
+							limit = int(limit)
+							keyword_lim = arg1.split('=>')[0]
+							if keyword_lim != 'LIMIT':
+								print(">> Error con el comando")
+								continue	
 
 				if table_name not in hbase.tables.keys():
 					print(">> La tabla '" + table_name + "' no existe")
@@ -327,7 +343,7 @@ while True:
 				else:
 					if start and end:
 						if start > end:
-							print(">> Error con el comando")
+							print(">> Error con el comando, rangos no validos")
 							continue
 						elif not hbase.Scan(table_name=table_name, row_start=start, row_stop=end):
 							print(">> La tabla '" + table_name + "' no tiene registros en ese rango")
@@ -335,11 +351,18 @@ while True:
 							for row in hbase.Scan(table_name=table_name, row_start=start, row_stop=end):
 								print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
 					else:
-						if not hbase.Scan(table_name):
-							print(">> La tabla '" + table_name + "' no tiene registros")
+						if limit:
+							if not hbase.Scan(table_name=table_name, limit=limit):
+								print(">> La tabla '" + table_name + "' no tiene registros")
+							else:
+								for row in hbase.Scan(table_name=table_name, limit=limit):
+									print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
 						else:
-							for row in hbase.Scan(table_name):
-								print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
+							if not hbase.Scan(table_name):
+								print(">> La tabla '" + table_name + "' no tiene registros")
+							else:
+								for row in hbase.Scan(table_name):
+									print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
 
 							
 				
