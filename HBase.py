@@ -26,6 +26,41 @@ class HBase:
 				self.tables['test'].h_files.append(hfile)
 				self.tables['test'].h_files.append(hfile2)
 
+		def Create_Test_Table2(self):
+			self.tables['test'] = Table('users', ['general', 'address'])
+			self.tables['test'].add_column('general', 'name')
+			self.tables['test'].add_column('general', 'age')
+			self.tables['test'].add_column('address', 'street')
+			self.tables['test'].add_column('address', 'city')
+
+			hfile = HFile([
+				Row(1, 'general:name', 1, 'John'),
+				Row(1, 'general:age', 1, 20),
+				Row(2, 'general:name', 1, 'Joshua'),
+				Row(2, 'general:age', 1, 25),
+				Row(3, 'general:name', 1, 'Sofia'),
+				Row(3, 'general:age', 1, 22),
+				Row(4, 'general:name', 1, 'Rose'),
+				Row(4, 'general:age', 1, 23),
+				Row(5, 'general:name', 1, 'Lily'),
+				Row(5, 'general:age', 1, 24),
+			], 'general')
+			# For address info
+			hfile2 = HFile([
+				Row(1, 'address:street', 1, '123 Main St'),
+				Row(1, 'address:city', 1, 'New York'),
+				Row(2, 'address:street', 1, '456 Main St'),
+				Row(2, 'address:city', 1, 'San Francisco'),
+				Row(3, 'address:street', 1, '789 Main St'),
+				Row(3, 'address:city', 1, 'Miami'),
+				Row(4, 'address:street', 1, '101 Main St'),
+				Row(4, 'address:city', 1, 'Los Angeles'),
+				Row(5, 'address:street', 1, '102 Main St'),
+				Row(5, 'address:city', 1, 'Chicago'),
+			], 'address')
+			self.tables['test'].h_files.append(hfile)
+			self.tables['test'].h_files.append(hfile2)
+
 		def Create(self, name, family_columns):
 				if name not in self.tables.keys():
 						table = Table(name, family_columns)
