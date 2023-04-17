@@ -91,12 +91,12 @@ class HBase:
 				self.tables = {}
 				return True
 		
-		def Get(self, table_name, row_key, columns, versions = 1):
+		def Get(self, table_name, row_key, columns, version = 1):
 				if table_name in self.tables.keys():
 						rows = []
 						for column in columns:
 							cf, col = column.split(":")
-							rows_found = self.tables[table_name].get(row_key, cf, col, versions)
+							rows_found = self.tables[table_name].get(row_key, cf, col, version)
 							if rows_found != None:
 								# append rows_found list contents to rows
 								rows.extend(rows_found)
