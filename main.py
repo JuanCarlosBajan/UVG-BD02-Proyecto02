@@ -145,6 +145,7 @@ while True:
 				print(">> Se han eliminado " + str(total_deleted) + " registros")
 			
 			elif command[0] == "get":
+				# example get 'test',1,{COLUMN => 'general:name', VERSION => 1}
 				hbase.Create_Test_Table()
 				command[1].replace("'","")
 				content = "".join(command[1:])
