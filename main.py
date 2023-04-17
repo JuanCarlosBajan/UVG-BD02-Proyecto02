@@ -1,5 +1,6 @@
 
 from HBase import HBase
+import csv
 
 
 print("Bienvenido al simulador de Hbase")

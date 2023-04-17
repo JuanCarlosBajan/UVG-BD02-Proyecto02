@@ -2,7 +2,7 @@
 from Table import Table
 from HFile import HFile, Row
 import numpy as np
-
+import csv
 
 class HBase:
 
@@ -11,37 +11,49 @@ class HBase:
 
 
 		def Load_DataSet(self):
-			data = np.genfromtxt('books.csv', delimiter=',', encoding='utf-8')
-			data = np.array(data)
-			data = data[~np.isnan(data).any(axis=1)]
+			self.tables['initial'] = Table('books', ['general', 'identifiers', 'reviews', 'publication'])
+			# Load csv data from books.csv
+			with open('books.csv', 'r') as csv_file:
+			# Create a csv reader object
+				csv_reader = csv.reader(csv_file)
+
+				# Get the header row of the CSV file
+				header_row = next(csv_reader)
+
+				# Initialize a list to store the rows with the same number of columns
+				same_col_rows = []
+
+			# Iterate through each row in the CSV file
+				for row in csv_reader:
+					if len(row) == len(header_row):
+							same_col_rows.append(row)
+
+				
+				for row in same_col_rows:
+						print(header_row)
+						print(row)
+			# data = data[~np.isnan(data).any(axis=1)]
+
+
+			# data = np.genfromtxt('books.csv', delimiter=',', encoding='utf-8')
+			# data = np.array(data)
+			# data = data[~np.isnan(data).any(axis=1)]
 
 			
 
-			self.tables['initial'] = Table('books', ['general', 'identifiers', 'reviews', 'publication'])
-			self.tables['initial'].add_column('general', 'bookID')
-			self.tables['initial'].add_column('general', 'title')
-			self.tables['initial'].add_column('general', 'authors')
-			self.tables['initial'].add_column('general', 'languageCode')
-			self.tables['initial'].add_column('general', 'noOfPages')
+			# 
+			# self.tables['initial'].add_column('general', 'bookID')
+			# self.tables['initial'].add_column('general', 'title')
+			# self.tables['initial'].add_column('general', 'authors')
+			# self.tables['initial'].add_column('general', 'languageCode')
+			# self.tables['initial'].add_column('general', 'noOfPages')
 
-			self.tables['initial'].add_column('identifiers', 'isbn')
-			self.tables['initial'].add_column('identifiers', 'isbn13')
+			# self.tables['initial'].add_column('identifiers', 'isbn')
+			# self.tables['initial'].add_column('identifiers', 'isbn13')
 
-			self.tables['initial'].add_column('reviews', 'averageRating')
-			self.tables['initial'].add_column('reviews', 'ratingsCount')
-			self.tables['initial'].add_column('reviews', 'textReviewsCount')
-
-			self.tables['initial'].add_column('publication', 'publisher')
-			self.tables['initial'].add_column('publication', 'publicationDate')
-
-			hfile = HFile([], 'general')
-			hfile2 = HFile([], 'identifiers')
-			hfile3 = HFile([], 'reviews')
-			hfile4 = HFile([], 'publication')
-
-			for row in data:
-				rrr = row
-				
+			# self.tables['initial'].add_column('reviews', 'averageRating')
+			# self.tables['initial'].add_column('reviews', 'ratingsCount')
+			# self.
 
 			
 
