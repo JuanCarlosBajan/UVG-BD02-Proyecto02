@@ -170,7 +170,7 @@ class HBase:
 						old_table = self.tables[table]
 						del self.tables[table]
 						old_table.change_name(new_name)
-						self.tables[found_new] = old_table
+						self.tables[new_name] = old_table
 						return True
 				
 				return False
