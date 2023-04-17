@@ -8,6 +8,7 @@ print("Bienvenido al simulador de Hbase")
 hbase = HBase()
 
 hbase.Create_Test_Table()
+hbase.Load_DataSet()
 
 def parse_get_command(cmd):
     parts = cmd.split(',')
