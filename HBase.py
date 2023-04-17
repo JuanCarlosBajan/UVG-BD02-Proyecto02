@@ -125,3 +125,8 @@ class HBase:
 				if table_name in self.tables.keys():
 						return self.tables[table_name].count()
 				return False
+		
+		def Scan(self, table_name):
+			if table_name in self.tables.keys():
+				return self.tables[table_name].scan()
+			return None
