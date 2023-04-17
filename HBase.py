@@ -103,9 +103,9 @@ class HBase:
 						return rows
 				return None
 		
-		def Put(self, table_name, row_key, column_family, column_name, value):
+		def Put(self, table_name, row_key, column_family, column_name, value, timestamp = None):
 				if table_name in self.tables.keys():
-						return self.tables[table_name].put(table_name, row_key, column_family, column_name, value)
+						return self.tables[table_name].put(table_name, row_key, column_family, column_name, value, timestamp)
 				return False
 		
 		def Delete(self, table_name, row_key = None, column_family = None, column_name = None ,timestamp = None):

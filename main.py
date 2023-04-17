@@ -243,23 +243,24 @@ while True:
 			#AQUI DEBEN IR TODOS LOS DEMAS COMANDOS
 
 			elif command[0] == "put":
+					# example put 'test',2,'general:name','Peter'
+					hbase.Create_Test_Table()
 					command[1].replace("'","")
 					arguments = command[1].split(",")
 					if len(arguments) < 4:
 							print(">> Error con el comando")
 							continue
-					table_name = arguments[0]
+					table_name = arguments[0][1:-1]
 					row = arguments[1]
-					column_family = arguments[2].split(':')[0]
-					column_name = arguments[2].split(':')[1]
-					value = arguments[3]
-					if len(arguments) == 5:
-							timestamp = arguments[4]
+					column_family = arguments[2][1:-1].split(':')[0]
+					column_name = arguments[2][1:-1].split(':')[1]
+					value = arguments[3][1:-1]
+					timestamp = arguments[4] if len(arguments) == 5 else None
 
-					# Revisar si la tabla existe en el HBase
-					if table_name not in hbase.tables.keys():
-							print(">> La tabla '" + table_name + "' no existe")
-							continue
+					if hbase.Put(table_name, row, column_family, column_name, value, timestamp):
+						print(">> Se ha insertado el registro")
+					else:
+						print(">> Ha ocurrido un error")
 				
 					
 			else:

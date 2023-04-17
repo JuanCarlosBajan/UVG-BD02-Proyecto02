@@ -16,10 +16,10 @@ class HFile:
 		
 
 		# HBase methods
-		def create_row(self, key, column, value):
-			''' Creates a row with the given key, column and value the tiemestamp is set to current time '''
-			''' Returns the row created '''
-			row = Row(key, column, time.time(), value, True)
+		def create_row(self, key, column, value, timestamp = None):
+			if not timestamp:
+				timestamp = time.time()
+			row = Row(key, column, timestamp, value, True)
 			self.rows.append(row)
 			return row
 		
