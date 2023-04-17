@@ -1,12 +1,52 @@
 
 from Table import Table
 from HFile import HFile, Row
+import numpy as np
 
 
 class HBase:
 
 		def __init__(self):
 				self.tables = {}
+
+
+		def Load_DataSet(self):
+			data = np.genfromtxt('books.csv', delimiter=',', encoding='utf-8')
+			data = np.array(data)
+			data = data[~np.isnan(data).any(axis=1)]
+
+			
+
+			self.tables['initial'] = Table('books', ['general', 'identifiers', 'reviews', 'publication'])
+			self.tables['initial'].add_column('general', 'bookID')
+			self.tables['initial'].add_column('general', 'title')
+			self.tables['initial'].add_column('general', 'authors')
+			self.tables['initial'].add_column('general', 'languageCode')
+			self.tables['initial'].add_column('general', 'noOfPages')
+
+			self.tables['initial'].add_column('identifiers', 'isbn')
+			self.tables['initial'].add_column('identifiers', 'isbn13')
+
+			self.tables['initial'].add_column('reviews', 'averageRating')
+			self.tables['initial'].add_column('reviews', 'ratingsCount')
+			self.tables['initial'].add_column('reviews', 'textReviewsCount')
+
+			self.tables['initial'].add_column('publication', 'publisher')
+			self.tables['initial'].add_column('publication', 'publicationDate')
+
+			hfile = HFile([], 'general')
+			hfile2 = HFile([], 'identifiers')
+			hfile3 = HFile([], 'reviews')
+			hfile4 = HFile([], 'publication')
+
+			for row in data:
+				rrr = row
+				
+
+			
+
+
+
 	
 		def Create_Test_Table(self):
 				self.tables['test'] = Table('users', ['general', 'address'])
@@ -26,6 +66,7 @@ class HBase:
 				self.tables['test'].h_files.append(hfile)
 				self.tables['test'].h_files.append(hfile2)
 
+				
 		def Create_Test_Table2(self):
 			self.tables['test'] = Table('users', ['general', 'address'])
 			self.tables['test'].add_column('general', 'name')
@@ -171,3 +212,8 @@ class HBase:
 				return False
 			self.tables[table_name].describe()
 			return True
+		
+
+if __name__ == '__main__':
+	hb = HBase()
+	hb.Load_DataSet()
