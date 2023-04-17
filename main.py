@@ -8,6 +8,7 @@ print("Bienvenido al simulador de Hbase")
 hbase = HBase()
 
 hbase.Create_Test_Table()
+hbase.Load_DataSet()
 
 def parse_get_command(cmd):
     parts = cmd.split(',')
@@ -191,13 +192,13 @@ while True:
 						version = int(value)
 				
 				rows = hbase.Get(table_name, row_key,[column_family + ":" + column], version)
-				if rows is None:
+				if rows is None or len(rows) == 0:
 					print(">> No se encontraron registros")
 				else:
 					for row in rows:
-						print(">> Key:" + row.key)
+						print(">> Key:" + str(row.key))
 						print(">> Value:" + str(row.value))
-						print(">> Timestamp:" + row.timestamp)
+						print(">> Timestamp:" + str(row.timestamp))
 
 				
 
