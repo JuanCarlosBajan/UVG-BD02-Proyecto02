@@ -96,10 +96,17 @@ while True:
 									print(">> Ha ocurrido un error")
 
 					elif content[0] == "ADD":
-							if hbase.Alter_Table_Add(table_name, content[1][1:-1]):
-									print(">> Se ha agregado la familia '" + content[1][1:-1] + "' a la tabla '" + table_name + "'")
+							if ':' not in content[1][1:-1]:
+								if hbase.Alter_Table_Add(table_name, content[1][1:-1]):
+										print(">> Se ha agregado la familia '" + content[1][1:-1] + "' a la tabla '" + table_name + "'")
 
+								else:
+										print(">> Ha ocurrido un error")
 							else:
+								column_family, column = content[1][1:-1].split(':')
+								if hbase.Alter_Table_Add_Column(table_name, column_family, column):
+									print(">> Se ha agregado la columna '" + column + "' a la familia '" + column_family + "' de la tabla '" + table_name + "'")
+								else:
 									print(">> Ha ocurrido un error")
 
 					elif content[0] == "DELETE":
