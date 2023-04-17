@@ -1,5 +1,6 @@
 
 from HBase import HBase
+import csv
 
 
 print("Bienvenido al simulador de Hbase")
@@ -81,15 +82,15 @@ while True:
 					print(">> " + str(hbase.Is_Enabled(table_name)))
 
 			elif command[0] == "alter":
-					table_name = command[1][1:-1]
-					content = "".join(command[2:])
+					table_name = command[1][1:-2]
+					content = " ".join(command[2:])
 					keys = [-1,-1]
 					for i in range(0, len(content)):
 							if content[i] == "{":
 									keys[0] = i
 							if content[i] == "}":
 									keys[1] = i
-					content = content[keys[0]+1,keys[1]]
+					content = content[keys[0]+1:keys[1]]
 					content = content.split(" => ")
 
 					if len(content) != 2:
