@@ -165,3 +165,9 @@ class HBase:
 			if table_name in self.tables.keys():
 				return self.tables[table_name].scan(row_start, row_stop, limit)
 			return None
+		
+		def Describe(self, table_name):
+			if table_name not in self.tables.keys():
+				return False
+			self.tables[table_name].describe()
+			return True
