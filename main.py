@@ -41,12 +41,9 @@ while True:
 			if command == "exit()":
 					print("saliendo...")
 					break
-
 			command = command.split(" ")
-
 			while "" in command:
 					command.remove("")
-			
 			if command[0] == "create":
 					content = "".join(command[1:])
 					content = content.split(",")
@@ -59,8 +56,6 @@ while True:
 							print(">> La tabla '" + table_name + "' no existe")
 					else:
 							print(">> La tabla '" + table_name + "' se ha creado")
-
-
 
 			elif command[0] == "list":
 					for name in hbase.List():
@@ -137,7 +132,7 @@ while True:
 					pass
 			
 			elif command[0] == "deleteall":
-				hbase.Create_Test_Table()
+				command[1].replace("'","")
 				content = "".join(command[1:])
 				content = content.split(",")
 				table_name = content[0]
@@ -153,9 +148,19 @@ while True:
 				# Parse the following format: get 'my_table', 'row1', {COLUMN => 'my_cf:my_column', VERSIONS => 1}
 				parsed_command = parse_get_command(" ".join(command))
 				print(parsed_command)
+
+			elif command[0] == "truncate":
+				command[1].replace("'","")
+				content = "".join(command[1:])
+				content = content.split(",")
+				table_name = content[0]
+				if hbase.Truncate(table_name):
+					print(">> Se ha truncado la tabla '" + table_name + "'")
+				else:
+					print(">> Ha ocurrido un error")	
 			
 			elif command[0] == "delete":
-				hbase.Create_Test_Table()
+				command[1].replace("'","")
 				multiple_keys = False
 				keys_found = ''
 				for c in command[1]:		
