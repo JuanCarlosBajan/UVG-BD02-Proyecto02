@@ -216,7 +216,7 @@ while True:
 					table_name = arguments[0]
 					row = arguments[1]
 					column_family = arguments[2].split(':')[0]
-					column = arguments[2].split(':')[1]
+					column_name = arguments[2].split(':')[1]
 					value = arguments[3]
 					if len(arguments) == 5:
 							timestamp = arguments[4]

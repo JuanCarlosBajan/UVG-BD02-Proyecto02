@@ -113,3 +113,12 @@ class Table:
 				for h_file in self.h_files:
 						count += len(h_file.rows)
 				return count
+		
+		def scan(self):
+				if not self.enabled:
+						return False
+				rows = []
+				for h_file in self.h_files:
+						for row in h_file.rows:
+								rows.append(row)
+				return rows
