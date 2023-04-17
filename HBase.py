@@ -11,33 +11,17 @@ class HBase:
 
 
 		def Load_DataSet(self):
-			self.tables['initial'] = Table('books', ['general', 'identifiers', 'reviews', 'publication'])
-			# Load csv data from books.csv
-			with open('books.csv', 'r') as csv_file:
-			# Create a csv reader object
-				csv_reader = csv.reader(csv_file)
+			data = []
 
-				# Get the header row of the CSV file
-				header_row = next(csv_reader)
+			with open('books.csv', 'r', encoding='utf-8') as csvfile:
+				reader = csv.reader(csvfile)
+				for row in reader:
+					if len(row) == 12:
+						data.append(row)
 
-				# Initialize a list to store the rows with the same number of columns
-				same_col_rows = []
-
-			# Iterate through each row in the CSV file
-				for row in csv_reader:
-					if len(row) == len(header_row):
-							same_col_rows.append(row)
-
-				
-				for row in same_col_rows:
-						print(header_row)
-						print(row)
-			# data = data[~np.isnan(data).any(axis=1)]
-
-
-			# data = np.genfromtxt('books.csv', delimiter=',', encoding='utf-8')
-			# data = np.array(data)
-			# data = data[~np.isnan(data).any(axis=1)]
+			data = np.array(data)
+			data = data[~np.all(data == '', axis=1)]
+			data = data[1:]
 
 			
 
