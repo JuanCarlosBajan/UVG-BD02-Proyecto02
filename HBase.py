@@ -25,7 +25,6 @@ class HBase:
 			data = data[1:]
 
 			
-
 			self.tables['initial'] = Table('books', ['general', 'identifiers', 'reviews', 'publication'])
 			self.tables['initial'].add_column('general', 'bookID')
 			self.tables['initial'].add_column('general', 'title')
@@ -43,14 +42,39 @@ class HBase:
 			self.tables['initial'].add_column('publication', 'publisher')
 			self.tables['initial'].add_column('publication', 'publicationDate')
 
-			hfile = HFile([], 'general')
-			hfile2 = HFile([], 'identifiers')
-			hfile3 = HFile([], 'reviews')
-			hfile4 = HFile([], 'publication')
+			# bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
 
+			count_general = 1
 			for row in data:
-				rrr = row
-				
+				self.Put('initial', count_general, 'general' , 'bookID', row[0])
+				self.Put('initial', count_general, 'general' , 'title', row[1])
+				self.Put('initial', count_general, 'general' , 'authors', row[2])
+				self.Put('initial', count_general, 'general' , 'languageCode', row[6])
+				self.Put('initial', count_general, 'general' , 'noOfPages', row[7])
+				count_general += 1
+
+			count_identifiers = 1
+			for row in data:
+				self.Put('initial', count_identifiers, 'identifiers' , 'isbn', row[4])
+				self.Put('initial', count_identifiers, 'identifiers' , 'isbn13', row[5])
+				count_identifiers += 1
+
+			count_reviews = 1
+			for row in data:
+				self.Put('initial', count_reviews, 'reviews' , 'averageRating', row[3])
+				self.Put('initial', count_reviews, 'reviews' , 'ratingsCount', row[8])
+				self.Put('initial', count_reviews, 'reviews' , 'textReviewsCount', row[9])
+				count_reviews += 1
+
+			count_publication = 1
+			for row in data:
+				self.Put('initial', count_publication, 'publication' , 'publisher', row[11])
+				self.Put('initial', count_publication, 'publication' , 'publicationDate', row[10])
+				count_publication += 1
+
+			print('Data Cargada Exitosamente!!!')
+			
+
 
 			
 
