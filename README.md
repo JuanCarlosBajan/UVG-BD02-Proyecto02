@@ -3,7 +3,7 @@
 ## Comandos - Definición de datos
 - Create: `create 'users','general','address'`
 - Is_Enabled: `is_enabled 'users'`
-- Alter: `alter 'users', {NAME => 'usuarios'}`
+- Alter: `alter 'test', {NAME => 'usuarios'}`
 - Drop: ``
 - Drop All: ``
 - Describe: ``
@@ -11,9 +11,9 @@
 
 ## Comandos - Manipulación de datos
 - Put: `put 'test',2,'general:name','Peter'`
-- Get: `get 'test',1,{COLUMN => 'general:name'}`
-- Scan: `scan 'test'`, `scan 'test',{LIMIT=>2}`, `scan 'test',{STARTROW=>2,ENDROW=>4}`
-- Delete: `delete 'test',1,general:name`
-- DeleteAll: `deleteall 'test',1`
+- Get: `get initial,1,{COLUMN=>'general:title'}`
+- Scan: `scan 'test'`, `scan 'test',{LIMIT=>2}`, `scan 'test',{STARTROW=>2,ENDROW=>4}`, `scan 'initial',{LIMIT=>2}`
+- Delete: `delete 'initial',1`
+- DeleteAll: `deleteall 'initial',1`
 - Count: `count 'initial'`
-- Truncate: `truncate 'test'`
+- Truncate: `truncate 'initial'`

@@ -46,30 +46,30 @@ class HBase:
 
 			count_general = 1
 			for row in data:
-				self.Put('initial', count_general, 'general' , 'bookID', row[0])
-				self.Put('initial', count_general, 'general' , 'title', row[1])
-				self.Put('initial', count_general, 'general' , 'authors', row[2])
-				self.Put('initial', count_general, 'general' , 'languageCode', row[6])
-				self.Put('initial', count_general, 'general' , 'noOfPages', row[7])
+				self.Put('initial', str(count_general), 'general' , 'bookID', row[0])
+				self.Put('initial', str(count_general), 'general' , 'title', row[1])
+				self.Put('initial', str(count_general), 'general' , 'authors', row[2])
+				self.Put('initial', str(count_general), 'general' , 'languageCode', row[6])
+				self.Put('initial', str(count_general), 'general' , 'noOfPages', row[7])
 				count_general += 1
 
 			count_identifiers = 1
 			for row in data:
-				self.Put('initial', count_identifiers, 'identifiers' , 'isbn', row[4])
-				self.Put('initial', count_identifiers, 'identifiers' , 'isbn13', row[5])
+				self.Put('initial', str(count_identifiers), 'identifiers' , 'isbn', row[4])
+				self.Put('initial', str(count_identifiers), 'identifiers' , 'isbn13', row[5])
 				count_identifiers += 1
 
 			count_reviews = 1
 			for row in data:
-				self.Put('initial', count_reviews, 'reviews' , 'averageRating', row[3])
-				self.Put('initial', count_reviews, 'reviews' , 'ratingsCount', row[8])
-				self.Put('initial', count_reviews, 'reviews' , 'textReviewsCount', row[9])
+				self.Put('initial', str(count_reviews), 'reviews' , 'averageRating', row[3])
+				self.Put('initial', str(count_reviews), 'reviews' , 'ratingsCount', row[8])
+				self.Put('initial', str(count_reviews), 'reviews' , 'textReviewsCount', row[9])
 				count_reviews += 1
 
 			count_publication = 1
 			for row in data:
-				self.Put('initial', count_publication, 'publication' , 'publisher', row[11])
-				self.Put('initial', count_publication, 'publication' , 'publicationDate', row[10])
+				self.Put('initial', str(count_publication), 'publication' , 'publisher', row[11])
+				self.Put('initial', str(count_publication), 'publication' , 'publicationDate', row[10])
 				count_publication += 1
 
 			print('Data Cargada Exitosamente!!!')
