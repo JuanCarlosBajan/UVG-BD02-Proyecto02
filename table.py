@@ -114,15 +114,19 @@ class Table:
 						count += len(h_file.rows)
 				return count
 		
-		def scan(self, start_row = None, end_row = None):
+		def scan(self, start_row = None, end_row = None, limit = None):
 				if not self.enabled:
 						return False
 				
 				rows = []
 				if not start_row and not end_row:
+					count = 0
 					for h_file in self.h_files:
 							for row in h_file.rows:
+									if limit and count == limit:
+										break
 									rows.append(row)
+									count += 1
 				
 				if start_row and end_row:
 					for h_file in self.h_files:

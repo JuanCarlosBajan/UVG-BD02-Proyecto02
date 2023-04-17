@@ -126,7 +126,7 @@ class HBase:
 						return self.tables[table_name].count()
 				return False
 		
-		def Scan(self, table_name, row_start = None, row_stop = None):
+		def Scan(self, table_name, row_start = None, row_stop = None, limit = None):
 			if table_name in self.tables.keys():
-				return self.tables[table_name].scan(row_start, row_stop)
+				return self.tables[table_name].scan(row_start, row_stop, limit)
 			return None
