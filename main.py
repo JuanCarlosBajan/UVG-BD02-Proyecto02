@@ -145,9 +145,18 @@ while True:
 				print(">> Se han eliminado " + str(total_deleted) + " registros")
 			
 			elif command[0] == "get":
-				# Parse the following format: get 'my_table', 'row1', {COLUMN => 'my_cf:my_column', VERSIONS => 1}
-				parsed_command = parse_get_command(" ".join(command))
-				print(parsed_command)
+				command[1].replace("'","")
+				content = "".join(command[1:])
+				content = content.split(",")
+				table_name = content[0]
+				if len(content) < 3:
+					print(">> Error con el comando")
+					continue
+				
+				row_key = content[1]
+				columns = content[2:]
+				
+				
 
 			elif command[0] == "truncate":
 				command[1].replace("'","")

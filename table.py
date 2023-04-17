@@ -79,7 +79,7 @@ class Table:
 						return False
 				
 
-		def get(self, row_key, column_family, column, versions = 1):
+		def get(self, row_key, column_family, column, version = 1):
 				if not self.enabled:
 						return None
 				if column_family not in self.family_columns.keys():
@@ -87,7 +87,7 @@ class Table:
 				if column not in self.family_columns[column_family]:
 						return None
 				for h_file in self.h_files:
-						rows = h_file.get(row_key, column_family, column, versions)
+						rows = h_file.get(row_key, column_family, column, version)
 						if len(rows) != 0:
 								return rows
 				return None

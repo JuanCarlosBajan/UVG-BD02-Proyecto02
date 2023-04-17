@@ -24,14 +24,18 @@ class HFile:
 			return row
 		
 
-		def get(self, key, column_family, column, versions = 1):
+		def get(self, key, column_family, column, version = 1):
 			# Order rows by timestamp
-			self.rows.sort(key=lambda x: x.timestamp, reverse=True)
+			self.rows.sort(key=lambda x: x.timestamp, reverse=False)
 			rows_found = []
+			counter = 0
 			for row in self.rows:
 				col_key = column_family + ":" + column
-				if row.key == key and row.column == col_key and row.enabled == True and len(rows_found) <= versions:
-					rows_found.append(row)
+				if row.key == key and row.column == col_key and row.enabled == True:
+					counter += 1
+					if counter == version:
+						rows_found.append(row)
+						break
 			return rows_found
 		
 
