@@ -360,20 +360,23 @@ while True:
 							print(">> La tabla '" + table_name + "' no tiene registros en ese rango")
 						else:
 							for row in hbase.Scan(table_name=table_name, row_start=start, row_stop=end):
-								print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
+								if row.enabled:
+									print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
 					else:
 						if limit:
 							if not hbase.Scan(table_name=table_name, limit=limit):
 								print(">> La tabla '" + table_name + "' no tiene registros con las especificaciones dadas")
 							else:
 								for row in hbase.Scan(table_name=table_name, limit=limit):
-									print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
+									if row.enabled:
+										print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
 						else:
 							if not hbase.Scan(table_name):
 								print(">> La tabla '" + table_name + "' no tiene registros con las especificaciones dadas")
 							else:
 								for row in hbase.Scan(table_name):
-									print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
+									if row.enabled:
+										print(" Key:" + str(row.key) + " value:" + str(row.value) + " timestamp:" + str(row.timestamp))
 
 							
 				
