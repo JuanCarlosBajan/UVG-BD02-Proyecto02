@@ -114,7 +114,9 @@ class Table:
 		def count(self):
 				count = 0
 				for h_file in self.h_files:
-						count += len(h_file.rows)
+						for r in h_file.rows:
+								if r.enabled:
+									count += 1
 				return count
 		
 		def scan(self, start_row = None, end_row = None, limit = None):
