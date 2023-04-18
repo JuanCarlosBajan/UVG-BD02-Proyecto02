@@ -356,6 +356,9 @@ while True:
 						if start > end:
 							print(">> Error con el comando, rangos no validos")
 							continue
+						elif start == end:
+							print(">> Error con el comando, STARTROW y ENDROW no pueden ser iguales")
+							continue
 						elif not hbase.Scan(table_name=table_name, row_start=start, row_stop=end):
 							print(">> La tabla '" + table_name + "' no tiene registros en ese rango")
 						else:
